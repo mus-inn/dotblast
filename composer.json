@@ -1,5 +1,5 @@
 {
-    "name": "dotblast",
+    "name": "musine/dotblast",
     "type": "library",
     "license": "Apache-2.0",
     "description": "Storybook for Laravel Blade",
