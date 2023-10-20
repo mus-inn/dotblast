@@ -1,5 +1,5 @@
 {
-    "name": "area17/blast",
+    "name": "dotblast",
     "type": "library",
     "license": "Apache-2.0",
     "description": "Storybook for Laravel Blade",
