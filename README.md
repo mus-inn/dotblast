@@ -16,9 +16,22 @@ We've published some articles to help you get started with Blast and it's featur
 -   [Auto-visualizing Tailwind Tokens and Documenting Design Systems Props with Blast](https://dev.to/area17/documenting-your-design-system-in-blast-4ao6)
 
 ## Install
+Ajouter dans le composer le repository suivant : 
+
+```
+"repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:mus-inn/dotblast.git"
+        }
+],
+"minimum-stability": "dev",
+"prefer-stable": true
+```
+Puis taper la commande : 
 
 ```bash
-composer require area17/blast
+composer require musine/dotblast
 ```
 
 You may need to configure your app's assets in `config/blast.php` after install. To publish the configuration file, use:
@@ -27,7 +40,53 @@ You may need to configure your app's assets in `config/blast.php` after install.
 php artisan vendor:publish --provider="A17\Blast\BlastServiceProvider" --tag="blast-config"
 ```
 
+Une fois le publish fait, modifier la variable vendor_path comme suit : 
+```
+'vendor_path' => 'vendor/musine/dotblast'
+```
+
 ## Start Storybook
+Si vous êtes sur gitpod, il faut ajouter dans le .env la clé suivante : 
+```
+STORYBOOK_SERVER_HOST=http://localhost:8000
+```
+
+Et de plus, créer le middleware Cors :
+```
+php artisan make:middleware Cors
+```
+Et y ajouter le code suivant : 
+```PHP
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class Cors
+{
+    
+    public function handle(Request $request, Closure $next): Response
+    {
+        return $next($request)
+        ->header('Access-Control-Allow-Origin', '*')
+        ->header('Access-Control-Allow-Methods', '*')
+        ->header('Access-Control-Allow-Credentials', true)
+        ->header('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,X-Token-Auth,Authorization')
+        ->header('Accept', 'application/json');
+    }
+}
+```
+Et enfin l'ajouter dans le Kernel : 
+
+```PHP
+protected $middleware = [
+        /* ... */
+        \App\Http\Middleware\Cors::class
+];
+```
 
 From your app's root directory run:
 
